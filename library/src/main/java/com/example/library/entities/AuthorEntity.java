@@ -14,7 +14,7 @@ public class AuthorEntity {
     private Collection<OwnershipEntity> ownerships;
 
     @Id
-    @Column(name = "AUTHOR_ID")
+    @Column(name = "AUTHOR_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getAuthorId() {
         return authorId;
@@ -25,7 +25,7 @@ public class AuthorEntity {
     }
 
     @Basic
-    @Column(name = "FIRST_NAME")
+    @Column(name = "FIRST_NAME", nullable = true, length = 50)
     public String getFirstName() {
         return firstName;
     }
@@ -35,7 +35,7 @@ public class AuthorEntity {
     }
 
     @Basic
-    @Column(name = "SURNAME")
+    @Column(name = "SURNAME", nullable = false, length = 50)
     public String getSurname() {
         return surname;
     }
@@ -45,7 +45,7 @@ public class AuthorEntity {
     }
 
     @Basic
-    @Column(name = "BIRTH_DAY")
+    @Column(name = "BIRTH_DAY", nullable = true)
     public Date getBirthDay() {
         return birthDay;
     }
@@ -64,7 +64,9 @@ public class AuthorEntity {
         if (authorId != that.authorId) return false;
         if (firstName != null ? !firstName.equals(that.firstName) : that.firstName != null) return false;
         if (surname != null ? !surname.equals(that.surname) : that.surname != null) return false;
-        return birthDay != null ? birthDay.equals(that.birthDay) : that.birthDay == null;
+        if (birthDay != null ? !birthDay.equals(that.birthDay) : that.birthDay != null) return false;
+
+        return true;
     }
 
     @Override
@@ -83,5 +85,15 @@ public class AuthorEntity {
 
     public void setOwnerships(Collection<OwnershipEntity> ownerships) {
         this.ownerships = ownerships;
+    }
+
+    @Override
+    public String toString() {
+        return "AuthorEntity{" +
+                "authorId=" + authorId +
+                ", firstName='" + firstName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", birthDay=" + birthDay +
+                '}';
     }
 }

@@ -3,24 +3,46 @@ package com.example.library.entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Enrollment")
+@Table(name = "ENROLLMENT")
 public class EnrollmentEntity {
-    private int enrollment_id;
+    private int enrollmentId;
     private int appUserId;
     private int bookIsbn;
     private AppuserEntity appuser;
     private BookEntity book;
 
     @Id
-    @Column(name = "ENROLLMENT_ID")
+    @Column(name = "ENROLLMENT_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getEnrollment_id() {
-        return enrollment_id;
+    public int getEnrollmentId() {
+        return enrollmentId;
     }
 
-    public void setEnrollment_id(int enrollmentId) {
-        this.enrollment_id = enrollmentId;
+    public void setEnrollmentId(int enrollmentId) {
+        this.enrollmentId = enrollmentId;
     }
+
+
+//    @Basic
+//    @Column(name = "APP_USER_ID")
+//    public int getAppUserId() {
+//        return appUserId;
+//    }
+//
+//    public void setAppUserId(int appUserId) {
+//        this.appUserId = appUserId;
+//    }
+//
+//    @Basic
+//    @Column(name = "BOOK_ISBN")
+//    public int getBookIsbn() {
+//        return bookIsbn;
+//    }
+//
+//    public void setBookIsbn(int bookIsbn) {
+//        this.bookIsbn = bookIsbn;
+//    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -29,14 +51,14 @@ public class EnrollmentEntity {
 
         EnrollmentEntity that = (EnrollmentEntity) o;
 
-        if (enrollment_id != that.enrollment_id) return false;
+        if (enrollmentId != that.enrollmentId) return false;
         if (appUserId != that.appUserId) return false;
         return bookIsbn == that.bookIsbn;
     }
 
     @Override
     public int hashCode() {
-        int result = enrollment_id;
+        int result = enrollmentId;
         result = 31 * result + appUserId;
         result = 31 * result + bookIsbn;
         return result;
@@ -60,5 +82,14 @@ public class EnrollmentEntity {
 
     public void setBook(BookEntity book) {
         this.book = book;
+    }
+
+    @Override
+    public String toString() {
+        return "EnrollmentEntity{" +
+                "enrollmentId=" + enrollmentId +
+                ", appuser=" + appuser +
+                ", book=" + book +
+                '}';
     }
 }

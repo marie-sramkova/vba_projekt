@@ -8,25 +8,25 @@ CREATE TABLE BOOK (
                       binding varchar(50));
 
 create table author (
-                        author_id int primary key generated always as identity,
+                        author_id int IDENTITY  primary key ,
                         first_name varchar(50),
                         surname varchar(50) not null,
                         birth_day date);
 
 create table appUser(
-                        app_user_id int primary key generated always as identity,
+                        app_user_id int identity primary key,
                         nick_name varchar(50) not null,
                         password_hash blob not null,
                         salt blob not null
 );
 
 create table Enrollment(
-                           enrollment_id int primary key generated always as identity,
+                           enrollment_id int identity primary key,
                            app_user_id int not null references appUser(app_user_id),
                            book_isbn int not null references BOOK(isbn)
 );
 
-create table Ownership (ownership_id int primary key generated always as identity,
+create table Ownership (ownership_id int identity primary key,
                         book_isbn int not null references BOOK(isbn),
                         author_id int not null references author(author_id)
 );
