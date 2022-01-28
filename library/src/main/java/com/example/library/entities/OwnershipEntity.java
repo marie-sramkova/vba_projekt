@@ -12,7 +12,7 @@ public class OwnershipEntity {
     private AuthorEntity author;
 
     @Id
-    @Column(name = "OWNERSHIP_ID")
+    @Column(name = "OWNERSHIP_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getOwnershipId() {
         return ownershipId;
@@ -21,6 +21,26 @@ public class OwnershipEntity {
     public void setOwnershipId(int ownershipId) {
         this.ownershipId = ownershipId;
     }
+
+//    @Basic
+//    @Column(name = "BOOK_ISBN")
+//    public int getBookIsbn() {
+//        return bookIsbn;
+//    }
+//
+//    public void setBookIsbn(int bookIsbn) {
+//        this.bookIsbn = bookIsbn;
+//    }
+//
+//    @Basic
+//    @Column(name = "AUTHOR_ID")
+//    public int getAuthorId() {
+//        return authorId;
+//    }
+//
+//    public void setAuthorId(int authorId) {
+//        this.authorId = authorId;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -48,8 +68,8 @@ public class OwnershipEntity {
         return book;
     }
 
-    public void setBook(BookEntity bookByBookIsbn) {
-        this.book = bookByBookIsbn;
+    public void setBook(BookEntity book) {
+        this.book = book;
     }
 
     @ManyToOne
@@ -60,5 +80,14 @@ public class OwnershipEntity {
 
     public void setAuthor(AuthorEntity author) {
         this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return "OwnershipEntity{" +
+                "ownershipId=" + ownershipId +
+                ", book=" + book +
+                ", author=" + author +
+                '}';
     }
 }

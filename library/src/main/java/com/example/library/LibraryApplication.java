@@ -9,8 +9,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
@@ -30,7 +28,7 @@ public class LibraryApplication {
         return (args) -> {
 
             BookEntity book = new BookEntity();
-            book.setIsbn(1);
+            book.setIsbn(3);
             book.setName("Kniha 1");
             book.setBinding("pevná");
             book.setContent("Obsah první knihy");
@@ -49,22 +47,6 @@ public class LibraryApplication {
                 System.out.println(book1);
                 log.info(book1.toString());
             }
-
-//            RestTbl table1 = new RestTbl("Stul 1");
-//            restTblRepository.save(table1);
-//
-//            coffeeRepository.save(new Coffee("Late", table1));
-//            coffeeRepository.save(new Coffee("Turek", table1));
-//            coffeeRepository.save(new Coffee("Moca", table1));
-//
-//            List<Coffee> coffees = coffeeRepository.findByName("Moca");
-//            log.info("Pocet najdenych " + coffees.size()) ;
-//            log.info("Customers found with findAll():");
-//            log.info("-------------------------------");
-//            for (Coffee coffee : coffeeRepository.findAll()) {
-//                log.info(coffee.toString());
-//            }
-
         };
     }
 

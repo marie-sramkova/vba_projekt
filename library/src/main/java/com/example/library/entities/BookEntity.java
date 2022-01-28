@@ -17,7 +17,7 @@ public class BookEntity {
     private Collection<OwnershipEntity> ownerships;
 
     @Id
-    @Column(name = "ISBN")
+    @Column(name = "ISBN", nullable = false)
     public int getIsbn() {
         return isbn;
     }
@@ -27,7 +27,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false, length = 50)
     public String getName() {
         return name;
     }
@@ -37,7 +37,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "NUMBER_OF_PAGES")
+    @Column(name = "NUMBER_OF_PAGES", nullable = true)
     public Integer getNumberOfPages() {
         return numberOfPages;
     }
@@ -47,7 +47,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "GENRE")
+    @Column(name = "GENRE", nullable = true, length = 50)
     public String getGenre() {
         return genre;
     }
@@ -57,7 +57,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "CONTENT")
+    @Column(name = "CONTENT", nullable = true, length = 1000)
     public String getContent() {
         return content;
     }
@@ -67,7 +67,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "IMAGE_URL")
+    @Column(name = "IMAGE_URL", nullable = true, length = 20000)
     public String getImageUrl() {
         return imageUrl;
     }
@@ -77,7 +77,7 @@ public class BookEntity {
     }
 
     @Basic
-    @Column(name = "BINDING")
+    @Column(name = "BINDING", nullable = true, length = 50)
     public String getBinding() {
         return binding;
     }
@@ -91,16 +91,18 @@ public class BookEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BookEntity that = (BookEntity) o;
+        BookEntity book = (BookEntity) o;
 
-        if (isbn != that.isbn) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (numberOfPages != null ? !numberOfPages.equals(that.numberOfPages) : that.numberOfPages != null)
+        if (isbn != book.isbn) return false;
+        if (name != null ? !name.equals(book.name) : book.name != null) return false;
+        if (numberOfPages != null ? !numberOfPages.equals(book.numberOfPages) : book.numberOfPages != null)
             return false;
-        if (genre != null ? !genre.equals(that.genre) : that.genre != null) return false;
-        if (content != null ? !content.equals(that.content) : that.content != null) return false;
-        if (imageUrl != null ? !imageUrl.equals(that.imageUrl) : that.imageUrl != null) return false;
-        return binding != null ? binding.equals(that.binding) : that.binding == null;
+        if (genre != null ? !genre.equals(book.genre) : book.genre != null) return false;
+        if (content != null ? !content.equals(book.content) : book.content != null) return false;
+        if (imageUrl != null ? !imageUrl.equals(book.imageUrl) : book.imageUrl != null) return false;
+        if (binding != null ? !binding.equals(book.binding) : book.binding != null) return false;
+
+        return true;
     }
 
     @Override

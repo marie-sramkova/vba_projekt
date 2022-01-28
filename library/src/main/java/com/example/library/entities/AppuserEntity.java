@@ -2,19 +2,17 @@ package com.example.library.entities;
 
 import javax.persistence.*;
 import java.util.Arrays;
-import java.util.Collection;
 
 @Entity
 @Table(name = "APPUSER")
 public class AppuserEntity {
     private int appUserId;
     private String nickName;
-    private byte[] salt;
     private byte[] passwordHash;
-    private Collection<EnrollmentEntity> enrollments;
+    private byte[] salt;
 
     @Id
-    @Column(name = "APP_USER_ID")
+    @Column(name = "APP_USER_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getAppUserId() {
         return appUserId;
@@ -25,7 +23,7 @@ public class AppuserEntity {
     }
 
     @Basic
-    @Column(name = "NICK_NAME")
+    @Column(name = "NICK_NAME", nullable = false, length = 50)
     public String getNickName() {
         return nickName;
     }
@@ -35,7 +33,7 @@ public class AppuserEntity {
     }
 
     @Basic
-    @Column(name = "PASSWORD_HASH")
+    @Column(name = "PASSWORD_HASH", nullable = false)
     public byte[] getPasswordHash() {
         return passwordHash;
     }
@@ -45,7 +43,7 @@ public class AppuserEntity {
     }
 
     @Basic
-    @Column(name = "SALT")
+    @Column(name = "SALT", nullable = false)
     public byte[] getSalt() {
         return salt;
     }
@@ -63,8 +61,9 @@ public class AppuserEntity {
 
         if (appUserId != that.appUserId) return false;
         if (nickName != null ? !nickName.equals(that.nickName) : that.nickName != null) return false;
-        if (!Arrays.equals(salt, that.salt)) return false;
         if (!Arrays.equals(passwordHash, that.passwordHash)) return false;
+        if (!Arrays.equals(salt, that.salt)) return false;
+
         return true;
     }
 
@@ -72,17 +71,18 @@ public class AppuserEntity {
     public int hashCode() {
         int result = appUserId;
         result = 31 * result + (nickName != null ? nickName.hashCode() : 0);
-        result = 31 * result + Arrays.hashCode(salt);
         result = 31 * result + Arrays.hashCode(passwordHash);
+        result = 31 * result + Arrays.hashCode(salt);
         return result;
     }
 
-    @OneToMany(mappedBy = "appuser")
-    public Collection<EnrollmentEntity> getEnrollments() {
-        return enrollments;
-    }
-
-    public void setEnrollments(Collection<EnrollmentEntity> enrollments) {
-        this.enrollments = enrollments;
+    @Override
+    public String toString() {
+        return "AppuserEntity{" +
+                "appUserId=" + appUserId +
+                ", nickName='" + nickName + '\'' +
+                ", passwordHash=" + Arrays.toString(passwordHash) +
+                ", salt=" + Arrays.toString(salt) +
+                '}';
     }
 }
