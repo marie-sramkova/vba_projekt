@@ -6,6 +6,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="entityManagerFactory" />
           <factory-entry name="library" />
           <factory-entry name="noname-a.xml@0" value="8e8ab294-e5e6-4fc0-9597-ecd60d6b42b2" />
         </datasource-mapping>
@@ -36,6 +37,13 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-thymeleaf:2.6.3" level="project" />
+    <orderEntry type="library" name="Maven: org.thymeleaf:thymeleaf-spring5:3.0.14.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.thymeleaf:thymeleaf:3.0.14.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.attoparser:attoparser:2.0.5.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.unbescape:unbescape:1.1.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.33" level="project" />
+    <orderEntry type="library" name="Maven: org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-jpa:2.6.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-aop:2.6.3" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.7" level="project" />
@@ -61,7 +69,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.15" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.15" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:5.3.15" level="project" />
-    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.33" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aspects:5.3.15" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: com.h2database:h2:1.4.200" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.6.3" level="project" />

@@ -55,11 +55,12 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/example/library" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\sramk\Documents\vysoka_skola\3_rocnik\1_semestr\7VBA\project\vba_projekt\library\src\main\resources" />
       <recent name="D:\sramk\Documents\vysoka_skola\3_rocnik\1_semestr\7VBA\project\vba_projekt\library\src\main\java\com\example\library" />
       <recent name="D:\sramk\Documents\vysoka_skola\3_rocnik\1_semestr\7VBA\project\vba_projekt\library\src\main\java\com\example\library\entities" />
     </key>
@@ -89,7 +90,7 @@
       <updated>1643103481297</updated>
       <workItem from="1643103482841" duration="1530000" />
       <workItem from="1643384860078" duration="5487000" />
-      <workItem from="1643394163065" duration="10401000" />
+      <workItem from="1643394163065" duration="11930000" />
     </task>
     <servers />
   </component>
