@@ -1,0 +1,69 @@
+CREATE TABLE BOOK (
+                      isbn int primary key,
+                      name varchar(50) not null,
+                      number_of_pages int,
+                      genre varchar(50),
+                      content varchar(1000),
+                      image_url varchar(20000),
+                      binding varchar(50));
+
+create table author (
+                        author_id int primary key generated always as identity,
+                        first_name varchar(50),
+                        surname varchar(50) not null,
+                        birth_day date);
+
+create table appUser(
+                        app_user_id int primary key generated always as identity,
+                        nick_name varchar(50) not null,
+                        password_hash blob not null,
+                        salt blob not null
+);
+
+create table Enrollment(
+                           enrollment_id int primary key generated always as identity,
+                           app_user_id int not null references appUser(app_user_id),
+                           book_isbn int not null references BOOK(isbn)
+);
+
+create table Ownership (ownership_id int primary key generated always as identity,
+                        book_isbn int not null references BOOK(isbn),
+                        author_id int not null references author(author_id)
+);
+
+
+ALTER TABLE Ownership ADD CONSTRAINT UQ_bookIsbn_authorId UNIQUE(book_isbn, author_id);
+ALTER TABLE Enrollment ADD CONSTRAINT UQ_bookIsbn_appUserId UNIQUE(book_isbn, app_user_id);
+
+
+drop table BOOK;
+drop table author;
+drop table OWNERSHIP;
+drop table Enrollment;
+drop table appUser;
+
+
+
+insert into BOOK values (1, 'book název', 210, 'žánr', 'obsah', 'image_url','pevná');
+insert into Enrollment (app_user_id, book_isbn) VALUES (1, 38);
+
+-- alter table BOOK add foreign key (author_id) REFERENCES Author(id);
+
+select * from book;
+select * from author;
+select * from Ownership;
+select * from Enrollment;
+select * from appUser;
+
+
+select u.*, b.* from APPUSER u, BOOK b, Enrollment e where e.app_user_id=u.app_user_id and e.BOOK_ISBN=b.isbn;
+select b.*, a.* from BOOK b, AUTHOR a, OWNERSHIP o where o.book_isbn=b.isbn and o.AUTHOR_ID=a.AUTHOR_ID;
+select b.*, a.* from BOOK b, AUTHOR a, OWNERSHIP o where o.book_isbn=120 and o.AUTHOR_ID=a.AUTHOR_ID;
+select o.* from Ownership o where o.BOOK_ISBN=120;
+
+delete from AUTHOR a where a.SURNAME='';
+delete from OWNERSHIP o where o.AUTHOR_ID = 110;
+delete from Enrollment b where b.enrollment_id=2;
+delete from Enrollment where enrollment_id=201;
+
+
