@@ -28,7 +28,7 @@ public class LibraryApplication {
         return (args) -> {
 
             BookEntity book = new BookEntity();
-            book.setIsbn(3);
+            book.setIsbn(5);
             book.setName("Kniha 1");
             book.setBinding("pevná");
             book.setContent("Obsah první knihy");
