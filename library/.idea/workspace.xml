@@ -14,8 +14,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -61,6 +61,9 @@
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.example.library.config" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\sramk\Documents\vysoka_skola\3_rocnik\1_semestr\7VBA\project\vba_projekt\library\src\main\resources" />
       <recent name="D:\sramk\Documents\vysoka_skola\3_rocnik\1_semestr\7VBA\project\vba_projekt\library\src\main\java\com\example\library" />
@@ -92,7 +95,8 @@
       <updated>1643103481297</updated>
       <workItem from="1643103482841" duration="1530000" />
       <workItem from="1643384860078" duration="5487000" />
-      <workItem from="1643394163065" duration="16968000" />
+      <workItem from="1643394163065" duration="17066000" />
+      <workItem from="1643454124622" duration="13903000" />
     </task>
     <servers />
   </component>
@@ -109,5 +113,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
