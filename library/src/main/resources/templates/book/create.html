@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>A creation of a new book</title>
+</head>
+<body>
+    <form action="/book/create" method="post">
+        <div>
+            <label for="isbn">ISBN:</label>
+            <input type="number" id="isbn" name="isbn" min="1" required/>
+        </div>
+        <div>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required/>
+        </div>
+        <div>
+            <label for="numberOfPages">Number of pages:</label>
+            <input type="number" id="numberOfPages" name="numberOfPages" min="1" max="2000"/>
+        </div>
+        <div>
+            <label for="genre">Genre:</label>
+            <input type="text" id="genre" name="genre"/>
+        </div>
+        <div>
+            <label for="content">Content:</label>
+            <input type="text" id="content" name="content"/>
+        </div>
+        <div>
+            <label for="imageUrl">Image url:</label>
+            <input type="text" id="imageUrl" name="imageUrl"/>
+        </div>
+        <div>
+            <label for="binding">Binding:</label>
+            <select name="binding" id="binding">
+                <option value="Hard" selected>Hard</option>
+                <option value="Soft">Soft</option>
+            </select>
+        </div>
+        <div>
+            <button type="submit">Insert</button>
+        </div>
+    </form>
+</body>
+</html>
