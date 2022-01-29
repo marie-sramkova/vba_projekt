@@ -1,4 +1,4 @@
-package com.example.library;
+package com.example.library.service;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

@@ -15,6 +15,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -47,6 +48,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="derby&#10;h2" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="JPA.DatabaseSchemaImportDialog" value="8e8ab294-e5e6-4fc0-9597-ecd60d6b42b2" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
@@ -90,7 +92,7 @@
       <updated>1643103481297</updated>
       <workItem from="1643103482841" duration="1530000" />
       <workItem from="1643384860078" duration="5487000" />
-      <workItem from="1643394163065" duration="11930000" />
+      <workItem from="1643394163065" duration="16968000" />
     </task>
     <servers />
   </component>

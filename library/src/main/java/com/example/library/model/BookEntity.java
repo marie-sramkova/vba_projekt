@@ -1,4 +1,4 @@
-package com.example.library.entities;
+package com.example.library.model;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -15,6 +15,19 @@ public class BookEntity {
     private String binding;
     private Collection<EnrollmentEntity> enrollments;
     private Collection<OwnershipEntity> ownerships;
+
+    public BookEntity() {
+    }
+
+    public BookEntity(int isbn, String name, Integer numberOfPages, String genre, String content, String imageUrl, String binding) {
+        this.isbn = isbn;
+        this.name = name;
+        this.numberOfPages = numberOfPages;
+        this.genre = genre;
+        this.content = content;
+        this.imageUrl = imageUrl;
+        this.binding = binding;
+    }
 
     @Id
     @Column(name = "ISBN", nullable = false)
