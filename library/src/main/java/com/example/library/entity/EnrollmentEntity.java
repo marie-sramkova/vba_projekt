@@ -1,4 +1,4 @@
-package com.example.library.model;
+package com.example.library.entity;
 
 import javax.persistence.*;
 
@@ -65,7 +65,7 @@ public class EnrollmentEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "APP_USER_ID", referencedColumnName = "APP_USER_ID", nullable = false)
+    @JoinColumn(name = "APP_USER_NAME", referencedColumnName = "NAME", nullable = false)
     public AppuserEntity getAppuser() {
         return appuser;
     }
