@@ -1,4 +1,4 @@
-package com.example.library.model;
+package com.example.library.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
