@@ -1,5 +1,7 @@
 package com.example.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
@@ -79,6 +81,7 @@ public class AuthorEntity {
     }
 
     @OneToMany(mappedBy = "author")
+    @JsonIgnore
     public Collection<OwnershipEntity> getOwnerships() {
         return ownerships;
     }

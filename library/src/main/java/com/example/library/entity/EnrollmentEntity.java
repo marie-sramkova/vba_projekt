@@ -11,6 +11,14 @@ public class EnrollmentEntity {
     private AppuserEntity appuser;
     private BookEntity book;
 
+    public EnrollmentEntity() {
+    }
+
+    public EnrollmentEntity(AppuserEntity appuser, BookEntity book) {
+        this.appuser = appuser;
+        this.book = book;
+    }
+
     @Id
     @Column(name = "ENROLLMENT_ID", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
