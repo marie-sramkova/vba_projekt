@@ -35,9 +35,9 @@ public class BookController {
     @RequestMapping(value = "/books", method = RequestMethod.GET)
     public List<BookEntity> getListOfBooks() {
         List<BookEntity> books = bookRepository.findAll();
-        if (books.isEmpty()){
+        if (books == null || books.isEmpty()) {
             return null;
-        }else{
+        } else {
             return books;
         }
     }
@@ -51,11 +51,11 @@ public class BookController {
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
         if (appuser.isPresent()) {
             List<EnrollmentEntity> enrollments = enrollmentRepository.findByAppuserName(username);
-            if (!enrollments.isEmpty()){
+            if (!enrollments.isEmpty()) {
                 List<BookEntity> books = new ArrayList<>();
-                for (EnrollmentEntity enrollment:enrollments) {
+                for (EnrollmentEntity enrollment : enrollments) {
                     BookEntity book = bookRepository.findById(enrollment.getBook().getIsbn()).stream().findFirst().orElse(null);
-                    if (book != null){
+                    if (book != null) {
                         books.add(book);
                     }
                 }
@@ -67,18 +67,18 @@ public class BookController {
     //endregion
 
     //region enrollBook
-    @RequestMapping(value="/enrollBook/{bookISBN}",
+    @RequestMapping(value = "/enrollBook/{bookISBN}",
             method = RequestMethod.POST)
     public ResponseEntity<BookEntity> enroll(@PathVariable Integer bookISBN) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
-        if (appuser.isPresent()){
+        if (appuser.isPresent()) {
             Optional<BookEntity> persistedBook = bookRepository.findById(bookISBN);
-            if (persistedBook.isPresent()){
+            if (persistedBook.isPresent()) {
                 EnrollmentEntity enrollment = new EnrollmentEntity(appuser.stream().findFirst().orElse(null), persistedBook.stream().findFirst().orElse(null));
                 EnrollmentEntity enr = enrollmentRepository.findByAppuserNameAndBookISBN(appuser.stream().findFirst().orElse(null).getName(), persistedBook.stream().findFirst().orElse(null).getIsbn());
-                if (enr == null){
+                if (enr == null) {
                     EnrollmentEntity persistedEnrollment = enrollmentRepository.save(enrollment);
                     if (persistedEnrollment == null) {
                         return ResponseEntity.notFound().build();
@@ -99,20 +99,21 @@ public class BookController {
     //endregion
 
     //region create
-    @RequestMapping(value="/createBook",
+    @RequestMapping(value = "/createBook",
             method = RequestMethod.POST,
-            consumes ={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<BookAndAuthor> create(@RequestBody BookAndAuthor bookAndAuthor) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
-        if (appuser.isPresent()){
-            if (!bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
-                authorRepository.findByNameSurnameBirthDay(
-                    bookAndAuthor.getAuthor().getFirstName(),
-                    bookAndAuthor.getAuthor().getSurname(),
-                    bookAndAuthor.getAuthor().getBirthDay()) == null){
+        if (appuser.isPresent()) {
+            if (bookAndAuthor != null &&
+                    !bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
+                    authorRepository.findByNameSurnameBirthDay(
+                            bookAndAuthor.getAuthor().getFirstName(),
+                            bookAndAuthor.getAuthor().getSurname(),
+                            bookAndAuthor.getAuthor().getBirthDay()) == null) {
                 BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
                 AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
                 OwnershipEntity ownershipEntity = new OwnershipEntity(persistedBook, persistedAuthor);
@@ -129,43 +130,45 @@ public class BookController {
     //endregion
 
     //region writeOffBook
-    @RequestMapping(value="/writeOffBook/{bookISBN}",
+    @RequestMapping(value = "/writeOffBook/{bookISBN}",
             method = RequestMethod.DELETE)
     public ResponseEntity<String> remove(@PathVariable Integer bookISBN) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
-        if (appuser.isPresent()){
+        if (appuser.isPresent()) {
             Optional<BookEntity> persistedBook = bookRepository.findById(bookISBN);
-            if (persistedBook.isPresent()){
+            if (persistedBook.isPresent()) {
                 EnrollmentEntity enr = enrollmentRepository.findByAppuserNameAndBookISBN(appuser.stream().findFirst().orElse(null).getName(), persistedBook.stream().findFirst().orElse(null).getIsbn());
-                if (enr != null){
+                if (enr != null) {
                     enrollmentRepository.delete(enr);
                     return ResponseEntity.status(HttpStatus.OK)
-                            .body("Book with isbn " + bookISBN + " successfully removed.");
-                    }
+                            .body("Book with isbn " + bookISBN + " successfully wrote off.");
                 }
             }
+        }
         return ResponseEntity.badRequest()
-                .body("Failed to unenroll book with isbn " + bookISBN);
+                .body("Failed to write off book with isbn " + bookISBN);
     }
     //endregion
 
     //region updateBook
-    @RequestMapping(value="/updateBook",
+    @RequestMapping(value = "/updateBook",
             method = RequestMethod.PUT,
-            consumes ={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<BookAndAuthor> update(@RequestBody BookAndAuthor bookAndAuthor) {
+        if (bookAndAuthor == null || bookAndAuthor.getBook() == null || bookAndAuthor.getAuthor() == null)
+            return ResponseEntity.badRequest().body(bookAndAuthor);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
-        if (appuser.isPresent()){
+        if (appuser.isPresent()) {
             if (bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
                     authorRepository.findByNameSurnameBirthDay(
                             bookAndAuthor.getAuthor().getFirstName(),
                             bookAndAuthor.getAuthor().getSurname(),
-                            bookAndAuthor.getAuthor().getBirthDay()) != null){
+                            bookAndAuthor.getAuthor().getBirthDay()) != null) {
                 BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
                 AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
                 if (persistedBook == null || persistedAuthor == null) {
