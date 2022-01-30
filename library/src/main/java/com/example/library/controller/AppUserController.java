@@ -13,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -20,14 +21,20 @@ import java.util.Optional;
 @RestController
 public class AppUserController {
 
+    private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    public AppUserController(MyUserDetailsService myUserDetailsService){
+        this.myUserDetailsService = myUserDetailsService;
+    }
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
     @Autowired
     private JwtService jwtService;
     @Autowired
     private AppuserRepository appuserRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // region authentication
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -58,8 +65,7 @@ public class AppUserController {
                 if (!user.getRoles().contains("user")) {
                     user.setRoles("user, ".concat(user.getRoles()));
                 }
-                AppuserEntity appuser = appuserRepository.save(user);
-
+                AppuserEntity appuser = myUserDetailsService.registerUser(user);
                 return ResponseEntity.ok(appuser);
             }
         }
