@@ -133,6 +133,7 @@ public class BookEntity {
     }
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     public Collection<EnrollmentEntity> getEnrollments() {
         return enrollments;
     }
@@ -142,6 +143,7 @@ public class BookEntity {
     }
 
     @OneToMany(mappedBy = "book")
+    @JsonIgnore
     public Collection<OwnershipEntity> getOwnerships() {
         return ownerships;
     }
