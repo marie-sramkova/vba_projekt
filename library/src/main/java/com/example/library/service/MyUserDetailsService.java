@@ -40,11 +40,6 @@ public class MyUserDetailsService implements UserDetailsService {
         return newUser;
     }
 
-    public AppuserEntity findUserById(String name) {
-        return appuserRepository.findById(name)
-                .orElseThrow(() -> new NullPointerException("user not found"));
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
