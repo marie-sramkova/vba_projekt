@@ -49,10 +49,19 @@ public class AppUserController {
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<AppuserEntity> create(@RequestBody AppuserEntity user) {
-        if (!appuserRepository.findById(user.getName()).isPresent()) {
-            AppuserEntity appuser = appuserRepository.save(user);
+        if (user != null && user.getName() != null && user.getPassword() != null &&
+                (user.getName().length() > 0) && (user.getPassword().length() > 0)) {
+            if (!appuserRepository.findById(user.getName()).isPresent()) {
+                if (user.getRoles() == null || user.getRoles().isEmpty()) {
+                    user.setRoles("user");
+                }
+                if (!user.getRoles().contains("user")) {
+                    user.setRoles("user, ".concat(user.getRoles()));
+                }
+                AppuserEntity appuser = appuserRepository.save(user);
 
-            return ResponseEntity.ok(appuser);
+                return ResponseEntity.ok(appuser);
+            }
         }
         return ResponseEntity.badRequest().body(user);
     }
@@ -67,10 +76,10 @@ public class AppUserController {
         String loggedUsername = userDetails.getUsername();
         Optional<AppuserEntity> oldPersistedAppUser = appuserRepository.findById(loggedUsername);
         if (oldPersistedAppUser.isPresent() && oldPersistedAppUser.get().getPassword().equals(oldPassword)) {
-            if (newPassword != null && newPassword.length()>0){
+            if (newPassword != null && newPassword.length() > 0) {
                 AppuserEntity newAppUser = new AppuserEntity(oldPersistedAppUser.get().getName(), newPassword, oldPersistedAppUser.get().getRoles());
                 AppuserEntity newPersistedAppUser = appuserRepository.save(newAppUser);
-                if (newPersistedAppUser != null){
+                if (newPersistedAppUser != null) {
                     return ResponseEntity.ok("Successfully changed.");
                 }
             }
@@ -88,18 +97,18 @@ public class AppUserController {
         String loggedUsername = userDetails.getUsername();
         Optional<AppuserEntity> oldPersistedAppUser = appuserRepository.findById(loggedUsername);
         if (oldPersistedAppUser.isPresent()) {
-            if (newRoles != null && newRoles.length()>0){
-                if (newRoles.contains("user")){
+            if (newRoles != null && newRoles.length() > 0) {
+                if (newRoles.contains("user")) {
                     AppuserEntity newAppUser = new AppuserEntity(oldPersistedAppUser.get().getName(), oldPersistedAppUser.get().getName(), newRoles);
                     AppuserEntity newPersistedAppUser = appuserRepository.save(newAppUser);
-                    if (newPersistedAppUser != null){
+                    if (newPersistedAppUser != null) {
                         return ResponseEntity.ok("Successfully changed.");
                     }
-                }else{
+                } else {
                     newRoles = "user, ".concat(newRoles);
                     AppuserEntity newAppUser = new AppuserEntity(oldPersistedAppUser.get().getName(), oldPersistedAppUser.get().getName(), newRoles);
                     AppuserEntity newPersistedAppUser = appuserRepository.save(newAppUser);
-                    if (newPersistedAppUser != null){
+                    if (newPersistedAppUser != null) {
                         return ResponseEntity.ok("Successfully changed.");
                     }
                 }
