@@ -36,6 +36,8 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/register").permitAll()
+                .antMatchers(HttpMethod.POST,"/book/{bookISBN}").permitAll()
+                .antMatchers(HttpMethod.POST,"/books").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .httpBasic();
@@ -46,8 +48,8 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.GET,"/user/books")
-                .antMatchers(HttpMethod.POST, "/authenticate", "/createBook", "/enrollBook", "/register")
+        web.ignoring().antMatchers(HttpMethod.GET,"/user/books", "/book/{bookISBN}", "/books")
+                .antMatchers(HttpMethod.POST, "/authenticate", "/createBook", "/enrollBook/{bookISBN}", "/register")
                 .antMatchers(HttpMethod.DELETE, "/writeOffBook/{bookISBN}");
     }
 
