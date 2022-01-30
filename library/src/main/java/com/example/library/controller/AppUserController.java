@@ -1,5 +1,6 @@
 package com.example.library.controller;
 
+import com.example.library.encoder.AppUserPasswordEncoder;
 import com.example.library.entity.AppuserEntity;
 import com.example.library.model.AuthRequestModel;
 import com.example.library.repository.AppuserRepository;
@@ -13,7 +14,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -34,7 +34,7 @@ public class AppUserController {
     @Autowired
     private AppuserRepository appuserRepository;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AppUserPasswordEncoder passwordEncoder;
 
     // region authentication
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -81,46 +81,16 @@ public class AppUserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String loggedUsername = userDetails.getUsername();
         Optional<AppuserEntity> oldPersistedAppUser = appuserRepository.findById(loggedUsername);
-        if (oldPersistedAppUser.isPresent() && oldPersistedAppUser.get().getPassword().equals(oldPassword)) {
+        if (oldPersistedAppUser.isPresent() && passwordEncoder.matches(oldPassword, oldPersistedAppUser.get().getPassword())) {
             if (newPassword != null && newPassword.length() > 0) {
                 AppuserEntity newAppUser = new AppuserEntity(oldPersistedAppUser.get().getName(), newPassword, oldPersistedAppUser.get().getRoles());
-                AppuserEntity newPersistedAppUser = appuserRepository.save(newAppUser);
+                AppuserEntity newPersistedAppUser = myUserDetailsService.registerUser(newAppUser);
                 if (newPersistedAppUser != null) {
                     return ResponseEntity.ok("Successfully changed.");
                 }
             }
         }
         return ResponseEntity.badRequest().body("Failed to change password.");
-    }
-    //endregion
-
-    //region resetRoles
-    @RequestMapping(value = "/resetRoles",
-            method = RequestMethod.PUT,
-            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<String> resetRoles(@RequestParam("newRoles") String newRoles) {
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String loggedUsername = userDetails.getUsername();
-        Optional<AppuserEntity> oldPersistedAppUser = appuserRepository.findById(loggedUsername);
-        if (oldPersistedAppUser.isPresent()) {
-            if (newRoles != null && newRoles.length() > 0) {
-                if (newRoles.contains("user")) {
-                    AppuserEntity newAppUser = new AppuserEntity(oldPersistedAppUser.get().getName(), oldPersistedAppUser.get().getName(), newRoles);
-                    AppuserEntity newPersistedAppUser = appuserRepository.save(newAppUser);
-                    if (newPersistedAppUser != null) {
-                        return ResponseEntity.ok("Successfully changed.");
-                    }
-                } else {
-                    newRoles = "user, ".concat(newRoles);
-                    AppuserEntity newAppUser = new AppuserEntity(oldPersistedAppUser.get().getName(), oldPersistedAppUser.get().getName(), newRoles);
-                    AppuserEntity newPersistedAppUser = appuserRepository.save(newAppUser);
-                    if (newPersistedAppUser != null) {
-                        return ResponseEntity.ok("Successfully changed.");
-                    }
-                }
-            }
-        }
-        return ResponseEntity.badRequest().body("Failed to change roles.");
     }
     //endregion
 }

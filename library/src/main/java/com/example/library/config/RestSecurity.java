@@ -60,7 +60,7 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(HttpMethod.GET,"/user/books", "/book/{bookISBN}", "/books")
                 .antMatchers(HttpMethod.POST, "/authenticate", "/createBook", "/enrollBook/{bookISBN}", "/register")
                 .antMatchers(HttpMethod.DELETE, "/writeOffBook/{bookISBN}")
-                .antMatchers(HttpMethod.PUT, "/updateBook", "/resetPassword", "/resetRoles");
+                .antMatchers(HttpMethod.PUT, "/updateBook", "/resetPassword");
     }
 
     @Bean
