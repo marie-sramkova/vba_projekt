@@ -153,7 +153,7 @@ public class BookController {
 
     //region updateBook
     @RequestMapping(value="/updateBook",
-            method = RequestMethod.POST,
+            method = RequestMethod.PUT,
             consumes ={MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<BookAndAuthor> update(@RequestBody BookAndAuthor bookAndAuthor) {
@@ -161,28 +161,16 @@ public class BookController {
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
         if (appuser.isPresent()){
-            if (!bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
+            if (bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
                     authorRepository.findByNameSurnameBirthDay(
                             bookAndAuthor.getAuthor().getFirstName(),
                             bookAndAuthor.getAuthor().getSurname(),
-                            bookAndAuthor.getAuthor().getBirthDay()) == null){
+                            bookAndAuthor.getAuthor().getBirthDay()) != null){
                 BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
                 AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
-                OwnershipEntity ownershipEntity = new OwnershipEntity(persistedBook, persistedAuthor);
-                OwnershipEntity persistedOwnership = ownershipRepository.save(ownershipEntity);
-                EnrollmentEntity enrollment = new EnrollmentEntity(appuser.stream().findFirst().orElse(null), persistedBook);
-                EnrollmentEntity enr = enrollmentRepository.findByAppuserNameAndBookISBN(appuser.stream().findFirst().orElse(null).getName(), persistedBook.getIsbn());
-                if (enr == null){
-                    EnrollmentEntity persistedEnrollment = enrollmentRepository.save(enrollment);
-                }
-                if (persistedBook == null || persistedAuthor == null || persistedOwnership == null) {
+                if (persistedBook == null || persistedAuthor == null) {
                     return ResponseEntity.notFound().build();
                 } else {
-                    URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-                            .path("/book/{bookISBN}")
-                            .buildAndExpand(persistedBook.getIsbn())
-                            .toUri();
-
                     return ResponseEntity.ok(bookAndAuthor);
                 }
             }
