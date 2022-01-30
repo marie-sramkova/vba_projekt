@@ -26,7 +26,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Autowired
     public MyUserDetailsService(AppuserRepository appuserRepository,
-                       @Lazy AppUserPasswordEncoder appUserPasswordEncoder){
+                                @Lazy AppUserPasswordEncoder appUserPasswordEncoder) {
         this.appuserRepository = appuserRepository;
         this.appUserPasswordEncoder = appUserPasswordEncoder;
     }
@@ -43,13 +43,13 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
-        if (appuser.isPresent()){
+        if (appuser.isPresent()) {
             List<SimpleGrantedAuthority> authorities = new ArrayList<>();
             Arrays.asList(appuser.get().getRoles().split(",")).stream().forEach(authority -> {
                 authorities.add(new SimpleGrantedAuthority(authority));
             });
             return new User(appuser.get().getName(), appuser.get().getPassword(), authorities);
-        }else {
+        } else {
             throw new UsernameNotFoundException("User " + username + " does not exists.");
         }
     }

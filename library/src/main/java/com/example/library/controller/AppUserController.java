@@ -24,9 +24,10 @@ public class AppUserController {
     private MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public AppUserController(MyUserDetailsService myUserDetailsService){
+    public AppUserController(MyUserDetailsService myUserDetailsService) {
         this.myUserDetailsService = myUserDetailsService;
     }
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired

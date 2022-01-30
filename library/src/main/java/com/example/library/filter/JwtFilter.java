@@ -23,8 +23,6 @@ import java.util.Objects;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    public static String loggedUserName;
-
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 

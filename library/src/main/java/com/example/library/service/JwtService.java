@@ -18,7 +18,7 @@ public class JwtService {
     @Value("${SECRET_KEY}")
     private String secret;
 
-    public String getJwt(UserDetails userDetails){
+    public String getJwt(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         String jwt = Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -27,12 +27,12 @@ public class JwtService {
         return jwt;
     }
 
-    public Boolean isValidToken(String token, UserDetails userDetails){
+    public Boolean isValidToken(String token, UserDetails userDetails) {
         final String userName = extractClaim(token, Claims::getSubject);
         return (userName.equals(userDetails.getUsername()) && !extractClaim(token, Claims::getExpiration).before(new Date()));
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         claimsResolver.apply(claims);
         return claimsResolver.apply(claims);

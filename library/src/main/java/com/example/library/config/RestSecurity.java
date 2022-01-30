@@ -1,8 +1,8 @@
 package com.example.library.config;
 
+import com.example.library.encoder.AppUserPasswordEncoder;
 import com.example.library.filter.JwtFilter;
 import com.example.library.service.MyUserDetailsService;
-import com.example.library.encoder.AppUserPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,13 +24,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class RestSecurity extends WebSecurityConfigurerAdapter {
 
     private MyUserDetailsService myUserDetailsService;
+
     @Autowired
-    public RestSecurity(MyUserDetailsService myUserDetailsService){
+    public RestSecurity(MyUserDetailsService myUserDetailsService) {
         this.myUserDetailsService = myUserDetailsService;
     }
-
-//    @Autowired
-//    private MyUserDetailsService myUserDetailsService;
 
     @Autowired
     private JwtFilter jwtFilter;
@@ -38,15 +36,14 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(daoAuthenticationProvider());
-//        auth.userDetailsService(myUserDetailsService);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/register").permitAll()
-                .antMatchers(HttpMethod.POST,"/book/{bookISBN}").permitAll()
-                .antMatchers(HttpMethod.POST,"/books").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
+                .antMatchers(HttpMethod.POST, "/book/{bookISBN}").permitAll()
+                .antMatchers(HttpMethod.POST, "/books").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
                 .httpBasic();
@@ -57,14 +54,14 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.GET,"/user/books", "/book/{bookISBN}", "/books")
+        web.ignoring().antMatchers(HttpMethod.GET, "/user/books", "/book/{bookISBN}", "/books")
                 .antMatchers(HttpMethod.POST, "/authenticate", "/createBook", "/enrollBook/{bookISBN}", "/register")
                 .antMatchers(HttpMethod.DELETE, "/writeOffBook/{bookISBN}")
                 .antMatchers(HttpMethod.PUT, "/updateBook", "/resetPassword");
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -74,14 +71,15 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider(){
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setPasswordEncoder(appUserPasswordEncoder());
         daoAuthenticationProvider.setUserDetailsService(myUserDetailsService);
         return daoAuthenticationProvider;
     }
+
     @Bean
-    public AppUserPasswordEncoder appUserPasswordEncoder(){
+    public AppUserPasswordEncoder appUserPasswordEncoder() {
         return new AppUserPasswordEncoder();
     }
 }
