@@ -21,10 +21,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -44,7 +40,7 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET,"/*").permitAll()
+                .antMatchers(HttpMethod.GET,"/list").permitAll()
 //                .antMatchers(HttpMethod.GET,"/list").permitAll()
                 .anyRequest().fullyAuthenticated()
                 .and()
@@ -52,22 +48,12 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.cors();
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-//        http.csrf().disable();
-//        http.cors()
-//                .and()
-//                .csrf().disable().authorizeRequests()
-//                .antMatchers("/book").hasRole("manager")
-//                .anyRequest().permitAll()
-//                .and()
-//                .formLogin();
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.GET,"/list")
-                .antMatchers("/*")
-//                .antMatchers(HttpMethod.POST, "/create")
-                .antMatchers(HttpMethod.POST, "/authenticate");
+                .antMatchers(HttpMethod.POST, "/authenticate", "/create");
     }
 
     @Bean

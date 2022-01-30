@@ -23,6 +23,8 @@ import java.util.Objects;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
+    public static String loggedUserName;
+
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
@@ -36,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authHeader = request.getHeader("Authorization");
         String userName = null;
         if (Objects.nonNull(authHeader) && authHeader.startsWith("Bearer ")){
-            userName = jwtService.extractClaims(authHeader.substring(7), Claims::getSubject);
+            userName = jwtService.extractClaim(authHeader.substring(7), Claims::getSubject);
             logger.info("*********userName: " + userName);
         }
         if (Objects.nonNull(userName) && Objects.isNull(SecurityContextHolder.getContext().getAuthentication())) {

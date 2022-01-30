@@ -100,7 +100,7 @@
       <workItem from="1643454124622" duration="22721000" />
       <workItem from="1643493647479" duration="7197000" />
       <workItem from="1643503262873" duration="2567000" />
-      <workItem from="1643529895750" duration="2769000" />
+      <workItem from="1643529895750" duration="7413000" />
     </task>
     <servers />
   </component>
@@ -118,5 +118,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/library/filter/JwtFilter.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
