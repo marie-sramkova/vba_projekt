@@ -28,11 +28,11 @@ public class JwtService {
     }
 
     public Boolean isValidToken(String token, UserDetails userDetails){
-        final String userName = extractClaims(token, Claims::getSubject);
-        return (userName.equals(userDetails.getUsername()) && !extractClaims(token, Claims::getExpiration).before(new Date()));
+        final String userName = extractClaim(token, Claims::getSubject);
+        return (userName.equals(userDetails.getUsername()) && !extractClaim(token, Claims::getExpiration).before(new Date()));
     }
 
-    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver){
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
         claimsResolver.apply(claims);
         return claimsResolver.apply(claims);

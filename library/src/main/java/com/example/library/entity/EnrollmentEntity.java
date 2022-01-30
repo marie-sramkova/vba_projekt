@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "ENROLLMENT")
 public class EnrollmentEntity {
     private int enrollmentId;
-    private int appUserId;
+    private int appUserName;
     private int bookIsbn;
     private AppuserEntity appuser;
     private BookEntity book;
@@ -52,14 +52,14 @@ public class EnrollmentEntity {
         EnrollmentEntity that = (EnrollmentEntity) o;
 
         if (enrollmentId != that.enrollmentId) return false;
-        if (appUserId != that.appUserId) return false;
+        if (appUserName != that.appUserName) return false;
         return bookIsbn == that.bookIsbn;
     }
 
     @Override
     public int hashCode() {
         int result = enrollmentId;
-        result = 31 * result + appUserId;
+        result = 31 * result + appUserName;
         result = 31 * result + bookIsbn;
         return result;
     }
