@@ -1,5 +1,7 @@
 package com.example.library.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,14 @@ public class OwnershipEntity {
     private int authorId;
     private BookEntity book;
     private AuthorEntity author;
+
+    public OwnershipEntity() {
+    }
+
+    public OwnershipEntity(BookEntity book, AuthorEntity author) {
+        this.book = book;
+        this.author = author;
+    }
 
     @Id
     @Column(name = "OWNERSHIP_ID", nullable = false)
@@ -64,6 +74,7 @@ public class OwnershipEntity {
 
     @ManyToOne
     @JoinColumn(name = "BOOK_ISBN", referencedColumnName = "ISBN", nullable = false)
+    @JsonIgnore
     public BookEntity getBook() {
         return book;
     }
@@ -74,6 +85,7 @@ public class OwnershipEntity {
 
     @ManyToOne
     @JoinColumn(name = "AUTHOR_ID", referencedColumnName = "AUTHOR_ID", nullable = false)
+    @JsonIgnore
     public AuthorEntity getAuthor() {
         return author;
     }
@@ -86,8 +98,8 @@ public class OwnershipEntity {
     public String toString() {
         return "OwnershipEntity{" +
                 "ownershipId=" + ownershipId +
-                ", book=" + book +
-                ", author=" + author +
+                ", book=" + book.getIsbn() +
+                ", author=" + author.getAuthorId() +
                 '}';
     }
 }
