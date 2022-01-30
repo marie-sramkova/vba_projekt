@@ -9,6 +9,15 @@ public class AppuserEntity {
     private String password;
     private String roles;
 
+    public AppuserEntity() {
+    }
+
+    public AppuserEntity(String name, String password, String roles) {
+        this.name = name;
+        this.password = password;
+        this.roles = roles;
+    }
+
     @Id
     @Column(name = "NAME", nullable = false)
     public String getName() {
