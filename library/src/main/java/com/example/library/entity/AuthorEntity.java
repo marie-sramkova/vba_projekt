@@ -1,6 +1,7 @@
 package com.example.library.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -16,6 +17,7 @@ public class AuthorEntity {
     private Date birthDay;
 
     @ManyToMany(mappedBy = "authors")
+    @Cascade({ org.hibernate.annotations.CascadeType.SAVE_UPDATE, org.hibernate.annotations.CascadeType.MERGE, org.hibernate.annotations.CascadeType.PERSIST})
     private Collection<BookEntity> books = new ArrayList<>();
 
     @Id

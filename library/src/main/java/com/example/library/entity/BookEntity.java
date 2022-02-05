@@ -1,6 +1,7 @@
 package com.example.library.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "BOOK")
+@Data
 public class BookEntity {
     private int isbn;
     private String name;
@@ -153,7 +155,7 @@ public class BookEntity {
     @JoinTable(name = "BOOK_AUTHOR",
             joinColumns = @JoinColumn(name = "BOOK_ISBN"),
             inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID"))
-    @JsonIgnore
+//    @JsonIgnore
     public Collection<AuthorEntity> getAuthors() {
         return authors;
     }

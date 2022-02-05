@@ -57,6 +57,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/example/library" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -107,7 +108,8 @@
       <workItem from="1643961318148" duration="3206000" />
       <workItem from="1644051906101" duration="6804000" />
       <workItem from="1644059579639" duration="1520000" />
-      <workItem from="1644061197021" duration="3906000" />
+      <workItem from="1644061197021" duration="3948000" />
+      <workItem from="1644076210506" duration="11153000" />
     </task>
     <servers />
   </component>
@@ -136,8 +138,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/library/controller/BookController.java</url>
-          <line>116</line>
-          <option name="timeStamp" value="13" />
+          <line>104</line>
+          <option name="timeStamp" value="16" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

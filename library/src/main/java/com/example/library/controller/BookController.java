@@ -25,8 +25,6 @@ public class BookController {
     @Autowired
     private AuthorRepository authorRepository;
     @Autowired
-    private OwnershipRepository ownershipRepository;
-    @Autowired
     private AppuserRepository appuserRepository;
     @Autowired
     private EnrollmentRepository enrollmentRepository;
@@ -103,30 +101,22 @@ public class BookController {
             method = RequestMethod.POST,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<BookAndAuthor> create(@RequestBody BookAndAuthor bookAndAuthor) {
+    public ResponseEntity<BookEntity> create(@RequestBody BookEntity book) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
         if (appuser.isPresent()) {
-            if (bookAndAuthor != null &&
-                    !bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
-                    authorRepository.findByNameSurnameBirthDay(
-                            bookAndAuthor.getAuthor().getFirstName(),
-                            bookAndAuthor.getAuthor().getSurname(),
-                            bookAndAuthor.getAuthor().getBirthDay()) == null) {
-                AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
-                bookAndAuthor.getBook().addAuthor(bookAndAuthor.getAuthor());
-                BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
-//                OwnershipEntity ownershipEntity = new OwnershipEntity(persistedBook, persistedAuthor);
-//                OwnershipEntity persistedOwnership = ownershipRepository.save(ownershipEntity);
-                if (persistedBook == null || persistedAuthor == null/* || persistedOwnership == null*/) {
+            if (book != null && !bookRepository.findById(book.getIsbn()).isPresent()){
+                setNewAuthorsFromDBOrCreateAndSet(book);
+                BookEntity persistedBook = bookRepository.save(book);
+                if (persistedBook == null) {
                     return ResponseEntity.notFound().build();
                 } else {
-                    return ResponseEntity.ok(bookAndAuthor);
+                    return ResponseEntity.ok(book);
                 }
             }
         }
-        return ResponseEntity.badRequest().body(bookAndAuthor);
+        return ResponseEntity.badRequest().body(book);
     }
     //endregion
 
@@ -158,28 +148,44 @@ public class BookController {
             method = RequestMethod.PUT,
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<BookAndAuthor> update(@RequestBody BookAndAuthor bookAndAuthor) {
-        if (bookAndAuthor == null || bookAndAuthor.getBook() == null || bookAndAuthor.getAuthor() == null)
-            return ResponseEntity.badRequest().body(bookAndAuthor);
+    public ResponseEntity<BookEntity> update(@RequestBody BookEntity book) {
+        if (book == null)
+            return ResponseEntity.badRequest().body(book);
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = userDetails.getUsername();
         Optional<AppuserEntity> appuser = appuserRepository.findById(username);
         if (appuser.isPresent()) {
-            if (bookRepository.findById(bookAndAuthor.getBook().getIsbn()).isPresent() &&
-                    authorRepository.findByNameSurnameBirthDay(
-                            bookAndAuthor.getAuthor().getFirstName(),
-                            bookAndAuthor.getAuthor().getSurname(),
-                            bookAndAuthor.getAuthor().getBirthDay()) != null) {
-                BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
-                AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
-                if (persistedBook == null || persistedAuthor == null) {
+            if (book != null && bookRepository.findById(book.getIsbn()).isPresent()) {
+                setNewAuthorsFromDBOrCreateAndSet(book);
+                BookEntity persistedBook = bookRepository.save(book);
+                if (persistedBook == null) {
                     return ResponseEntity.notFound().build();
                 } else {
-                    return ResponseEntity.ok(bookAndAuthor);
+                    return ResponseEntity.ok(book);
                 }
             }
         }
-        return ResponseEntity.badRequest().body(bookAndAuthor);
+        return ResponseEntity.badRequest().body(book);
+    }
+
+    private void setNewAuthorsFromDBOrCreateAndSet(@RequestBody BookEntity book) {
+        List<AuthorEntity> newAuthors = new ArrayList<>();
+        for (AuthorEntity author : book.getAuthors()) {
+            if (authorRepository.findByNameSurnameBirthDay(
+                    author.getFirstName(),
+                    author.getSurname(),
+                    author.getBirthDay()) == null) {
+                AuthorEntity persistedAuthor = authorRepository.save(author);
+                newAuthors.add(persistedAuthor);
+            } else {
+                AuthorEntity authorFromDB = authorRepository.findByNameSurnameBirthDay(
+                        author.getFirstName(),
+                        author.getSurname(),
+                        author.getBirthDay());
+                newAuthors.add(authorFromDB);
+            }
+        }
+        book.setAuthors(newAuthors);
     }
     //endregion
 
