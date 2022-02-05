@@ -58,7 +58,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/example/library" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../jwt_git_template/spring.security-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -101,7 +101,13 @@
       <workItem from="1643493647479" duration="7197000" />
       <workItem from="1643503262873" duration="2567000" />
       <workItem from="1643529895750" duration="33148000" />
-      <workItem from="1643572217902" duration="4638000" />
+      <workItem from="1643572217902" duration="4997000" />
+      <workItem from="1643629658026" duration="111000" />
+      <workItem from="1643630328901" duration="1332000" />
+      <workItem from="1643961318148" duration="3206000" />
+      <workItem from="1644051906101" duration="6804000" />
+      <workItem from="1644059579639" duration="1520000" />
+      <workItem from="1644061197021" duration="2826000" />
     </task>
     <servers />
   </component>

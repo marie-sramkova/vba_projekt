@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "AUTHOR")
@@ -13,7 +15,9 @@ public class AuthorEntity {
     private String firstName;
     private String surname;
     private Date birthDay;
-    private Collection<OwnershipEntity> ownerships;
+
+    @ManyToMany(mappedBy = "authors")
+    private Collection<BookEntity> books = new ArrayList<>();
 
     @Id
     @Column(name = "AUTHOR_ID", nullable = false)
@@ -80,15 +84,24 @@ public class AuthorEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "author")
-    @JsonIgnore
-    public Collection<OwnershipEntity> getOwnerships() {
-        return ownerships;
+    @ManyToMany(mappedBy = "authors")
+    public Collection<BookEntity> getBooks() {
+        return books;
     }
 
-    public void setOwnerships(Collection<OwnershipEntity> ownerships) {
-        this.ownerships = ownerships;
+    public void setBooks(Collection<BookEntity> books) {
+        this.books = books;
     }
+
+    //    @OneToMany(mappedBy = "author")
+//    @JsonIgnore
+//    public Collection<OwnershipEntity> getOwnerships() {
+//        return ownerships;
+//    }
+//
+//    public void setOwnerships(Collection<OwnershipEntity> ownerships) {
+//        this.ownerships = ownerships;
+//    }
 
     @Override
     public String toString() {

@@ -3,7 +3,9 @@ package com.example.library.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "BOOK")
@@ -16,7 +18,13 @@ public class BookEntity {
     private String imageUrl;
     private String binding;
     private Collection<EnrollmentEntity> enrollments;
-    private Collection<OwnershipEntity> ownerships;
+
+
+    @ManyToMany
+    @JoinTable(name = "BOOK_AUTHOR",
+            joinColumns = @JoinColumn(name = "BOOK_ISBN"),
+            inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID"))
+    private Collection<AuthorEntity> authors = new ArrayList<>();
 
     public BookEntity() {
     }
@@ -142,15 +150,27 @@ public class BookEntity {
         this.enrollments = enrollments;
     }
 
-    @OneToMany(mappedBy = "book")
-    @JsonIgnore
-    public Collection<OwnershipEntity> getOwnerships() {
-        return ownerships;
+    @ManyToMany
+    @JoinTable(name = "BOOK_AUTHOR",
+            joinColumns = @JoinColumn(name = "BOOK_ISBN"),
+            inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID"))
+    public Collection<AuthorEntity> getAuthors() {
+        return authors;
     }
 
-    public void setOwnerships(Collection<OwnershipEntity> ownerships) {
-        this.ownerships = ownerships;
+    public void setAuthors(Collection<AuthorEntity> authors) {
+        this.authors = authors;
     }
+
+    //    @OneToMany(mappedBy = "book")
+//    @JsonIgnore
+//    public Collection<OwnershipEntity> getOwnerships() {
+//        return ownerships;
+//    }
+//
+//    public void setOwnerships(Collection<OwnershipEntity> ownerships) {
+//        this.ownerships = ownerships;
+//    }
 
     @Override
     public String toString() {
@@ -163,5 +183,9 @@ public class BookEntity {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", binding='" + binding + '\'' +
                 '}';
+    }
+
+    public void addAuthor(AuthorEntity author) {
+        authors.add(author);
     }
 }
