@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "AUTHOR")
@@ -93,16 +92,6 @@ public class AuthorEntity {
     public void setBooks(Collection<BookEntity> books) {
         this.books = books;
     }
-
-    //    @OneToMany(mappedBy = "author")
-//    @JsonIgnore
-//    public Collection<OwnershipEntity> getOwnerships() {
-//        return ownerships;
-//    }
-//
-//    public void setOwnerships(Collection<OwnershipEntity> ownerships) {
-//        this.ownerships = ownerships;
-//    }
 
     @Override
     public String toString() {
