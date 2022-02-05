@@ -85,6 +85,7 @@ public class AuthorEntity {
     }
 
     @ManyToMany(mappedBy = "authors")
+    @JsonIgnore
     public Collection<BookEntity> getBooks() {
         return books;
     }

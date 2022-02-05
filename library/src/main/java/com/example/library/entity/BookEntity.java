@@ -154,6 +154,7 @@ public class BookEntity {
     @JoinTable(name = "BOOK_AUTHOR",
             joinColumns = @JoinColumn(name = "BOOK_ISBN"),
             inverseJoinColumns = @JoinColumn(name = "AUTHOR_ID"))
+    @JsonIgnore
     public Collection<AuthorEntity> getAuthors() {
         return authors;
     }
