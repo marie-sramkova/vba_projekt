@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 @Entity
 @Table(name = "BOOK")
@@ -162,16 +161,6 @@ public class BookEntity {
     public void setAuthors(Collection<AuthorEntity> authors) {
         this.authors = authors;
     }
-
-    //    @OneToMany(mappedBy = "book")
-//    @JsonIgnore
-//    public Collection<OwnershipEntity> getOwnerships() {
-//        return ownerships;
-//    }
-//
-//    public void setOwnerships(Collection<OwnershipEntity> ownerships) {
-//        this.ownerships = ownerships;
-//    }
 
     @Override
     public String toString() {
