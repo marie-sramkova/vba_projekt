@@ -1,6 +1,6 @@
 package com.example.library.controller;
 
-import com.example.library.dto.BookAndAuthor;
+import com.example.library.model.BookAndAuthor;
 import com.example.library.entity.*;
 import com.example.library.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,11 +114,12 @@ public class BookController {
                             bookAndAuthor.getAuthor().getFirstName(),
                             bookAndAuthor.getAuthor().getSurname(),
                             bookAndAuthor.getAuthor().getBirthDay()) == null) {
+                bookAndAuthor.getBook().addAuthor(bookAndAuthor.getAuthor());
                 BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
                 AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
-                OwnershipEntity ownershipEntity = new OwnershipEntity(persistedBook, persistedAuthor);
-                OwnershipEntity persistedOwnership = ownershipRepository.save(ownershipEntity);
-                if (persistedBook == null || persistedAuthor == null || persistedOwnership == null) {
+//                OwnershipEntity ownershipEntity = new OwnershipEntity(persistedBook, persistedAuthor);
+//                OwnershipEntity persistedOwnership = ownershipRepository.save(ownershipEntity);
+                if (persistedBook == null || persistedAuthor == null/* || persistedOwnership == null*/) {
                     return ResponseEntity.notFound().build();
                 } else {
                     return ResponseEntity.ok(bookAndAuthor);

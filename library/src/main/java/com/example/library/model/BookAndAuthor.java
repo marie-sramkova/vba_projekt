@@ -1,4 +1,4 @@
-package com.example.library.dto;
+package com.example.library.model;
 
 import com.example.library.entity.AuthorEntity;
 import com.example.library.entity.BookEntity;

@@ -20,7 +20,8 @@ public class JwtService {
 
     public String getJwt(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        String jwt = Jwts.builder().setClaims(claims).setSubject(userDetails.getUsername())
+        String jwt = Jwts.builder().setClaims(claims)
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 360000))
                 .signWith(SignatureAlgorithm.HS256, secret).compact();
