@@ -114,9 +114,9 @@ public class BookController {
                             bookAndAuthor.getAuthor().getFirstName(),
                             bookAndAuthor.getAuthor().getSurname(),
                             bookAndAuthor.getAuthor().getBirthDay()) == null) {
+                AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
                 bookAndAuthor.getBook().addAuthor(bookAndAuthor.getAuthor());
                 BookEntity persistedBook = bookRepository.save(bookAndAuthor.getBook());
-                AuthorEntity persistedAuthor = authorRepository.save(bookAndAuthor.getAuthor());
 //                OwnershipEntity ownershipEntity = new OwnershipEntity(persistedBook, persistedAuthor);
 //                OwnershipEntity persistedOwnership = ownershipRepository.save(ownershipEntity);
                 if (persistedBook == null || persistedAuthor == null/* || persistedOwnership == null*/) {
